@@ -7,6 +7,7 @@ public class InvoiceHeader {
     private int invoiceNumber;
     private String date;
     private String customerName;
+    private Double total = 0.0;
     private ArrayList<InvoiceLine> invoiceLines = new ArrayList<>();
 
 
@@ -50,5 +51,13 @@ public class InvoiceHeader {
 
     public ArrayList<InvoiceLine> getInvoiceLines() {
         return invoiceLines;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
     }
 }

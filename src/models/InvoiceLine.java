@@ -2,16 +2,16 @@ package models;
 
 public class InvoiceLine {
 
-    private int invoiceNumber;
-    private String itemName;
-    private int itemPrice;
-    private int count;
-    private int itemTotal;
+    private int invoiceNumber = 0;
+    private String itemName = "";
+    private Double itemPrice = 0.0;
+    private int count = 0;
+    private Double itemTotal = 0.0;
 
     public InvoiceLine() {
     }
 
-    public InvoiceLine(int invoiceNumber, String itemName, int itemPrice, int count) {
+    public InvoiceLine(int invoiceNumber, String itemName, Double itemPrice, int count) {
         this.invoiceNumber = invoiceNumber;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
@@ -34,11 +34,11 @@ public class InvoiceLine {
         this.itemName = itemName;
     }
 
-    public int getItemPrice() {
+    public Double getItemPrice() {
         return itemPrice;
     }
 
-    public void setItemPrice(int itemPrice) {
+    public void setItemPrice(Double itemPrice) {
         this.itemPrice = itemPrice;
     }
 
@@ -50,11 +50,11 @@ public class InvoiceLine {
         this.count = count;
     }
 
-    public int getItemTotal() {
+    public Double getItemTotal() {
         return itemTotal;
     }
 
-    public void setItemTotal(int itemTotal) {
+    public void setItemTotal(Double itemTotal) {
         this.itemTotal = itemTotal;
     }
 }

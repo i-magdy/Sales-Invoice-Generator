@@ -18,8 +18,8 @@ public class MainMenuBar  implements ActionListener {
 
         mFileMenu.add(mLoadItem);
         mFileMenu.add(mSaveItem);
-        mSaveItem.setActionCommand(ActionCommands.SAVE);
-        mLoadItem.setActionCommand(ActionCommands.LOAD);
+        mSaveItem.setActionCommand(ActionCommands.MENU_SAVE);
+        mLoadItem.setActionCommand(ActionCommands.MENU_LOAD);
         mSaveItem.addActionListener(this);
         mLoadItem.addActionListener(this);
 
@@ -34,11 +34,11 @@ public class MainMenuBar  implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()){
-            case ActionCommands.SAVE:  {
+            case ActionCommands.MENU_SAVE:  {
                 System.out.println("Saving..");
                 break;
             }
-            case ActionCommands.LOAD:{
+            case ActionCommands.MENU_LOAD:{
                 System.out.println("Loading..");
                 break;
             }
