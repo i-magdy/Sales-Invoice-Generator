@@ -111,5 +111,6 @@ public class InvoicesTable extends JPanel implements ListSelectionListener {
 
     public void setInvoices(ArrayList<InvoiceHeader> invoices) {
         this.invoices = invoices;
+        table.setModel(createTableModel());
     }
 }

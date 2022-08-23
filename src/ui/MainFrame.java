@@ -6,10 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFrame extends JFrame implements ActionListener,ActionsListener {
 
 
+    private ArrayList<InvoiceHeader> invoiceHeaders = new ArrayList<>();
     public MainFrame(){
         super("Sales Invoice Generator");
         setSize(1024,560);
@@ -21,7 +24,8 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
         add(invoicesTable);
         add(createInvoiceFrame);
         createInvoiceFrame.showLayout();
-
+        invoiceHeaders.add(new InvoiceHeader(5,"5/4/2022","Ibrahim"));
+        invoicesTable.setInvoices(invoiceHeaders);
         createInvoiceFrame.updateInvoiceNumber(50);
 
     }
