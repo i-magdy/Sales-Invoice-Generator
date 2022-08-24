@@ -61,4 +61,8 @@ public class InvoiceHeader {
     public void setTotal(Double total) {
         this.total = total;
     }
+
+    public void addInvoiceLine(InvoiceLine invoiceLine){
+        invoiceLines.add(invoiceLine);
+    }
 }

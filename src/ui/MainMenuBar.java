@@ -10,8 +10,10 @@ public class MainMenuBar  implements ActionListener {
 
 
     private JMenu mFileMenu;
+    private ActionsListener listener;
 
-    public MainMenuBar(){
+    public MainMenuBar(ActionsListener listener){
+        this.listener = listener;
         mFileMenu = new JMenu("File");
         JMenuItem mLoadItem = new JMenuItem("Load");
         JMenuItem mSaveItem = new JMenuItem("Save");
@@ -35,11 +37,11 @@ public class MainMenuBar  implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()){
             case ActionCommands.MENU_SAVE:  {
-                System.out.println("Saving..");
+                listener.menuSaveAction();
                 break;
             }
             case ActionCommands.MENU_LOAD:{
-                System.out.println("Loading..");
+                listener.menuLoadAction();
                 break;
             }
             default:

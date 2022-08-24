@@ -1,5 +1,6 @@
 package ui;
 
+import models.FileOperations;
 import models.InvoiceHeader;
 
 import javax.swing.*;
@@ -15,19 +16,19 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
     private ArrayList<InvoiceHeader> invoiceHeaders = new ArrayList<>();
     private InvoicesTable invoicesTable;
     private CreateInvoiceFrame createInvoiceFrame;
+    private FileOperations fileOperations;
     public MainFrame(){
         super("Sales Invoice Generator");
+        fileOperations = new FileOperations();
         setSize(1024,560);
         setLayout(new GridLayout(1,2));
-        MainMenuBar menuBar = new MainMenuBar();
+        MainMenuBar menuBar = new MainMenuBar(this);
         setJMenuBar(menuBar.create());
         invoicesTable = new InvoicesTable(this);
         createInvoiceFrame = new CreateInvoiceFrame(this);
         add(invoicesTable);
         add(createInvoiceFrame);
         createInvoiceFrame.hideLayout();
-        invoiceHeaders.add(new InvoiceHeader(5,"5/4/2022","Ibrahim"));
-        invoiceHeaders.add(new InvoiceHeader(5,"5/4/2022","Ibrahim kkk"));
         invoicesTable.setInvoices(invoiceHeaders);
     }
 
@@ -47,12 +48,13 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
 
     @Override
     public void menuSaveAction() {
-
+        fileOperations.writFile(invoiceHeaders,this);
     }
 
     @Override
     public void menuLoadAction() {
-
+        invoiceHeaders = fileOperations.readFile(this);
+        invoicesTable.setInvoices(invoiceHeaders);
     }
 
     @Override
@@ -63,7 +65,7 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
     @Override
     public void createNewInvoice() {
         createInvoiceFrame.showLayout();
-        createInvoiceFrame.setInvoiceNumber(invoiceHeaders.get(invoiceHeaders.size()-1).getInvoiceNumber() + 1);
+        createInvoiceFrame.setInvoiceNumber(invoiceHeaders.isEmpty() ? 1 : invoiceHeaders.get(invoiceHeaders.size()-1).getInvoiceNumber() + 1);
     }
 
     @Override
