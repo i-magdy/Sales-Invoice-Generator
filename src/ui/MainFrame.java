@@ -16,10 +16,8 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
     private ArrayList<InvoiceHeader> invoiceHeaders = new ArrayList<>();
     private InvoicesTable invoicesTable;
     private CreateInvoiceFrame createInvoiceFrame;
-    private FileOperations fileOperations;
     public MainFrame(){
         super("Sales Invoice Generator");
-        fileOperations = new FileOperations();
         setSize(1024,560);
         setLayout(new GridLayout(1,2));
         MainMenuBar menuBar = new MainMenuBar(this);
@@ -30,6 +28,7 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
         add(createInvoiceFrame);
         createInvoiceFrame.hideLayout();
         invoicesTable.setInvoices(invoiceHeaders);
+        menuLoadAction();
     }
 
 
@@ -48,12 +47,12 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
 
     @Override
     public void menuSaveAction() {
-        fileOperations.writFile(invoiceHeaders,this);
+        FileOperations.writFile(invoiceHeaders);
     }
 
     @Override
     public void menuLoadAction() {
-        invoiceHeaders = fileOperations.readFile(this);
+        invoiceHeaders = FileOperations.readFile();
         invoicesTable.setInvoices(invoiceHeaders);
     }
 
