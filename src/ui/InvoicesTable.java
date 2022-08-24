@@ -8,10 +8,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InvoicesTable extends JPanel implements ListSelectionListener {
+public class InvoicesTable extends JPanel implements ListSelectionListener, ActionListener {
 
     private ActionsListener listener;
     private JTable table;
@@ -26,7 +28,6 @@ public class InvoicesTable extends JPanel implements ListSelectionListener {
         col.add("Count");
         col.add("Total");
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-
         table = new JTable(createTableModel());
         table.getSelectionModel().addListSelectionListener(this);
         add(new JScrollPane(table));
@@ -34,6 +35,8 @@ public class InvoicesTable extends JPanel implements ListSelectionListener {
         JButton deleteButton = new JButton("Delete Invoice");
         createButton.setActionCommand(ActionCommands.CREATE);
         deleteButton.setActionCommand(ActionCommands.DELETE);
+        createButton.addActionListener(this);
+        deleteButton.addActionListener(this);
         JPanel panel = new JPanel();
         panel.add(createButton);
         panel.add(deleteButton);
@@ -101,16 +104,30 @@ public class InvoicesTable extends JPanel implements ListSelectionListener {
         System.out.println(selectedRow);
     }
 
-    public int getSelectedRow() {
-        return selectedRow;
-    }
-
     public ArrayList<InvoiceHeader> getInvoices() {
         return invoices;
     }
 
+    private void  updateDataChange(){
+        table.setModel(createTableModel());
+        selectedRow = -1;
+    }
     public void setInvoices(ArrayList<InvoiceHeader> invoices) {
         this.invoices = invoices;
-        table.setModel(createTableModel());
+        updateDataChange();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        switch (actionEvent.getActionCommand()){
+            case ActionCommands.CREATE:
+                listener.createNewInvoice();
+                break;
+            case ActionCommands.DELETE:
+                listener.deleteInvoice(selectedRow);
+                break;
+
+            default:System.out.println(actionEvent.getActionCommand());
+        }
     }
 }

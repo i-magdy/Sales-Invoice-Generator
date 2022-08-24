@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InvoiceHeader {
 
@@ -8,7 +9,7 @@ public class InvoiceHeader {
     private String date;
     private String customerName;
     private Double total = 0.0;
-    private ArrayList<InvoiceLine> invoiceLines = new ArrayList<>();
+    private List<InvoiceLine> invoiceLines = new ArrayList<>();
 
 
     public InvoiceHeader() {
@@ -37,7 +38,7 @@ public class InvoiceHeader {
         this.date = date;
     }
 
-    public void setInvoiceLines(ArrayList<InvoiceLine> invoiceLines) {
+    public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
     }
 
@@ -49,7 +50,7 @@ public class InvoiceHeader {
         this.customerName = customerName;
     }
 
-    public ArrayList<InvoiceLine> getInvoiceLines() {
+    public List<InvoiceLine> getInvoiceLines() {
         return invoiceLines;
     }
 

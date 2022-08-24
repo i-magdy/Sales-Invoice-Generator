@@ -24,11 +24,11 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
     private JLabel invoiceNumberLabel;
     private List<String> cols = new ArrayList<>(5);
     private List<InvoiceLine> invoiceLines = new ArrayList<>();
+    private JTable lines;
 
 
     public CreateInvoiceFrame(ActionsListener listener){
         this.listener = listener;
-        hideLayout();
         setLocation(20,0);
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         cols.add("No.");
@@ -37,9 +37,10 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
         cols.add("Count");
         cols.add("Item Total");
         add(createInvoiceInfoPanel());
-        JTable lines = new JTable(createTableModel());
+        lines = new JTable(createTableModel());
         add(new JScrollPane(lines));
         createPanelActions();
+        hideLayout();
     }
 
 
@@ -205,11 +206,6 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
         };
     }
 
-
-    public void updateInvoiceNumber(int number){
-        invoiceNumberLabel.setText(String.valueOf(number));
-    }
-
     public void showLayout(){
         invoiceHeader = new InvoiceHeader();
         setVisible(true);
@@ -218,8 +214,13 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
     public void hideLayout(){
         invoiceHeader = new InvoiceHeader();
         setVisible(false);
+        clearData();
     }
 
+    public void setInvoiceNumber(int i){
+        invoiceHeader.setInvoiceNumber(i);
+        invoiceNumberLabel.setText(String.valueOf(invoiceHeader.getInvoiceNumber()));
+    }
 
     private String totalPrice(){
         if (invoiceLines.size() > 0){
@@ -237,16 +238,43 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
         switch (actionEvent.getActionCommand()){
             case ActionCommands.SAVE:{
                 String name = customerNameField.getText();
-                if (!name.isBlank() && name.length() > 2){
+                String date = dateField.getText();
+                if (!name.isBlank() && name.length() > 2 && !date.isBlank() && isDataValid()){
+                    invoiceHeader.setCustomerName(name);
+                    invoiceHeader.setDate(date);
+                    invoiceHeader.setInvoiceLines(invoiceLines);
                     listener.createInvoiceAction(invoiceHeader);
+                    hideLayout();
                 }else {
                     //TODO ERROR name
                 }
+                break;
             }
             case ActionCommands.CANCEL:{
                 listener.cancelCreatingAction();
+                break;
             }
             default: System.out.println(actionEvent.getActionCommand());
         }
+    }
+
+    private boolean isDataValid(){
+        if (invoiceLines.isEmpty()) return false;
+        boolean b = true;
+        for (int i =0;i < invoiceLines.size();i++){
+            InvoiceLine invoiceLine = invoiceLines.get(i);
+            if (invoiceLine.getItemName().isBlank() || invoiceLine.getItemTotal() == 0.0 || invoiceLine.getCount() == 0 || invoiceLine.getItemPrice() == 0.0){
+                b = false;
+            }
+        }
+        return b;
+    }
+    private void clearData(){
+        invoiceLines = new ArrayList<>();
+        invoiceNumberLabel.setText("");
+        totalLabel.setText("");
+        dateField.setText("");
+        customerNameField.setText("");
+        lines.setModel(createTableModel());
     }
 }

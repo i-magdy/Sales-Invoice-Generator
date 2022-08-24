@@ -7,5 +7,6 @@ public interface ActionsListener {
     public void menuSaveAction();
     void menuLoadAction();
     void cancelCreatingAction();
-    void CreateNewInvoice();
+    void createNewInvoice();
+    void deleteInvoice(int position);
 }
