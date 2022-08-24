@@ -3,17 +3,16 @@ package models;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
-import java.awt.desktop.FilesEvent;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class FileOperations {
 
 
-    private final FileFilter filter = new FileFilter() {
+    private static final FileFilter filter = new FileFilter() {
         @Override
         public boolean accept(File file) {
             if (file.isDirectory()) return true;
@@ -26,7 +25,7 @@ public class FileOperations {
             return "*.csv";
         }
     };
-    public ArrayList<InvoiceHeader> readFile(Component component){
+    public static ArrayList<InvoiceHeader> readFile(Component component){
         ArrayList<InvoiceHeader> headersList = new ArrayList<>();
         JFileChooser invoiceHeaderChooser = new JFileChooser();
         invoiceHeaderChooser.setDialogTitle("Open Invoice Header");
@@ -44,7 +43,7 @@ public class FileOperations {
             int resultLines = invoiceLinesChooser.showOpenDialog(component);
             if (resultLines == JFileChooser.APPROVE_OPTION) {
                 String linesPath = invoiceLinesChooser.getSelectedFile().getPath();
-                if (!linesPath.endsWith(".scv")){
+                if (!linesPath.endsWith(".csv")){
                     JOptionPane.showMessageDialog(component,"Wrong InvoiceLine.csv File!","Load InvoiceLine",JOptionPane.PLAIN_MESSAGE);
                     return new ArrayList<>();
                 }
@@ -66,8 +65,6 @@ public class FileOperations {
                             String invoiceDate = headerToken.nextToken();
                             String customerName = headerToken.nextToken();
                             if (invoiceNum.equals("InvoiceNum")){ continue; }
-
-                            System.out.println(Integer.parseInt(invoiceNum)+"+"+invoiceDate+"+"+customerName);
                             InvoiceHeader header = new InvoiceHeader(Integer.parseInt(invoiceNum),invoiceDate,customerName);
                             headersList.add(header);
                         }
@@ -105,9 +102,6 @@ public class FileOperations {
                 }
             }
         }
-        for (InvoiceHeader h: headersList){
-            System.out.println(h.getTotal());
-        }
         return headersList;
     }
 
@@ -115,19 +109,6 @@ public class FileOperations {
         JFileChooser chooser =  new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogTitle("Choose Folder to save");
-        /*chooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                if (file.isDirectory()) return true;
-                String name = file.getName();
-                return name.endsWith(".csv");
-            }
-
-            @Override
-            public String getDescription() {
-                return "*.csv";
-            }
-        });*/
         int result = chooser.showOpenDialog(component);
         if (result == JFileChooser.APPROVE_OPTION){
             String path = chooser.getSelectedFile().getPath();
@@ -145,9 +126,9 @@ public class FileOperations {
                     headersWriter.append("\n");
                     linesWriter.append("InvoiceNum");
                     linesWriter.append(",");
-                    linesWriter.append("itemName");
+                    linesWriter.append("ItemName");
                     linesWriter.append(",");
-                    linesWriter.append("itemPrice");
+                    linesWriter.append("ItemPrice");
                     linesWriter.append(",");
                     linesWriter.append("Count");
                     linesWriter.append("\n");
@@ -169,6 +150,7 @@ public class FileOperations {
                             headersWriter.close();
                             linesWriter.flush();
                             linesWriter.close();
+                            JOptionPane.showMessageDialog(component,"SAVED! at: "+path,"Save",JOptionPane.PLAIN_MESSAGE);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -179,6 +161,22 @@ public class FileOperations {
 
     }
 
+
+    public static void main(String[] args){
+        JFrame frame = new JFrame();
+        ArrayList<InvoiceHeader> invoiceHeaders = readFile(frame);
+        invoiceHeaders.forEach((it)-> {
+            System.out.println(it.getInvoiceNumber());
+            System.out.println("{");
+            System.out.println(it.getDate()+","+it.getCustomerName());
+            it.getInvoiceLines().forEach(invoiceLine -> {
+                System.out.println(invoiceLine.getItemName()+","+invoiceLine.getItemPrice()+","+invoiceLine.getCount());
+            });
+            System.out.println("}");
+        });
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.dispatchEvent(new WindowEvent(frame,WindowEvent.WINDOW_CLOSING));
+    }
 
 
 }

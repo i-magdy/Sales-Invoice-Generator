@@ -239,14 +239,14 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
             case ActionCommands.SAVE:{
                 String name = customerNameField.getText();
                 String date = dateField.getText();
-                if (!name.isBlank() && name.length() > 2 && !date.isBlank() && isDataValid()){
+                if (!name.isBlank() && name.length() > 2 && !date.isBlank() && isDataValid() && isDateFormatValid()){
                     invoiceHeader.setCustomerName(name);
                     invoiceHeader.setDate(date);
                     invoiceHeader.setInvoiceLines(invoiceLines);
                     listener.createInvoiceAction(invoiceHeader);
                     hideLayout();
                 }else {
-                    //TODO ERROR name
+                    JOptionPane.showMessageDialog(this,"Check Your Data Input,Something went wrong","Wrong",JOptionPane.PLAIN_MESSAGE);
                 }
                 break;
             }
@@ -267,6 +267,26 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
                 b = false;
             }
         }
+        return b;
+    }
+
+    private boolean isDateFormatValid(){
+        String date = dateField.getText();
+        if (date.isBlank()) return false;
+        boolean b = true;
+        if (date.length() == 10) {
+            String day = date.substring(0, 2);
+            String month = date.substring(3, 5);
+            String year = date.substring(6, 10);
+            try {
+                int dd = Integer.parseInt(day);
+                int mm = Integer.parseInt(month);
+                int yyyy = Integer.parseInt(year);
+                return  dd > 0 && dd <= 31 && mm > 0 && mm <= 12;
+            }catch (NumberFormatException e){
+                return false;
+            }
+        }else { b = false; }
         return b;
     }
     private void clearData(){
