@@ -151,7 +151,10 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
                     InvoiceLine line = new InvoiceLine();
                     switch (col){
                         case 1: {
-                            line.setItemName(o.toString());
+                            String itemName = o.toString();
+                            if (!itemName.isBlank()) {
+                                line.setItemName(itemName);
+                            }
                             break;
                         }
                         case 2: {
@@ -167,13 +170,19 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
                             break;
                         }
                     }
-                    line.setItemTotal(line.getItemPrice() * line.getCount());
-                    invoiceLines.add(line);
+                    if (!line.getItemName().isBlank()) {
+                        line.setItemTotal(line.getItemPrice() * line.getCount());
+                        invoiceLines.add(line);
+                    }
                 }else {
                     InvoiceLine line = invoiceLines.get(row);
                     switch (col){
                         case 1: {
-                            line.setItemName(o.toString());
+                            String itemName = o.toString();
+                            if (!itemName.isBlank()) {
+                                System.out.println(itemName + "  |");
+                                line.setItemName(itemName);
+                            }
                             break;
                         }
                         case 2: {
@@ -190,7 +199,9 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
                         }
                     }
                     line.setItemTotal(line.getItemPrice() * line.getCount());
-                    invoiceLines.set(row,line);
+                    if (!line.getItemName().isBlank() && line.getCount() > 0) {
+                        invoiceLines.set(row, line);
+                    }
                 }
             }
 

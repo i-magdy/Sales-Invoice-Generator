@@ -171,9 +171,9 @@ public class FileOperations {
         FileReader linesFile = null;
         BufferedReader linesBuffer = null;
         try {
-            headersFile = new FileReader("src/models/InvoiceHeader.csv");
+            headersFile = new FileReader("InvoiceHeader.csv");
             headersBuffer = new BufferedReader(headersFile);
-            linesFile = new FileReader("src/models/InvoiceLine.csv");
+            linesFile = new FileReader("InvoiceLine.csv");
             linesBuffer = new BufferedReader(linesFile);
             String headerRow;
             String lineRow;
@@ -229,8 +229,8 @@ public class FileOperations {
         FileWriter headersWriter = null;
         FileWriter linesWriter = null;
         try {
-            headersWriter = new FileWriter("src/models/InvoiceHeader.csv");
-            linesWriter = new FileWriter("src/models/InvoiceLine.csv");
+            headersWriter = new FileWriter("InvoiceHeader.csv");
+            linesWriter = new FileWriter("InvoiceLine.csv");
             headersWriter.append("InvoiceNum");
             headersWriter.append(",");
             headersWriter.append("InvoiceDate");
