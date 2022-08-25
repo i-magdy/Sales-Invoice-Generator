@@ -5,6 +5,8 @@ import models.InvoiceLine;
 import util.ActionCommands;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -13,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateInvoiceFrame extends JPanel implements ActionListener {
+public class CreateInvoiceFrame extends JPanel implements ActionListener, ListSelectionListener {
 
 
     private InvoiceHeader invoiceHeader;
@@ -25,6 +27,7 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
     private List<String> cols = new ArrayList<>(5);
     private List<InvoiceLine> invoiceLines = new ArrayList<>();
     private JTable lines;
+    private int selectedItem = -1;
 
 
     public CreateInvoiceFrame(ActionsListener listener){
@@ -47,14 +50,19 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
     private void createPanelActions(){
         JButton saveButton = new JButton("Save");
         JButton cancelButton = new JButton("Cancel");
+        JButton deleteItemButton = new JButton("Delete Item");
         saveButton.setActionCommand(ActionCommands.SAVE);
         cancelButton.setActionCommand(ActionCommands.CANCEL);
+        deleteItemButton.setActionCommand(ActionCommands.DELETE_ITEM);
         saveButton.addActionListener(this);
         cancelButton.addActionListener(this);
+        deleteItemButton.addActionListener(this)
         JPanel panel = new JPanel();
         panel.add(saveButton);
+        panel.add(deleteItemButton);
         panel.add(cancelButton);
         add(panel);
+        lines.getSelectionModel().addListSelectionListener(this);
     }
 
 
@@ -273,6 +281,17 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
                 listener.cancelCreatingAction();
                 break;
             }
+            case ActionCommands.DELETE_ITEM:{
+                if (selectedItem == -1){
+                    JOptionPane.showMessageDialog(this,invoiceLines.isEmpty()?"You do not have any items!":"Please Select Item to Delete.","Error",JOptionPane.ERROR_MESSAGE);
+                }else {
+                    if (!invoiceLines.isEmpty() && selectedItem < invoiceLines.size()){
+                        invoiceLines.remove(selectedItem);
+                        lines.setModel(createTableModel());
+                    }
+                }
+                break;
+            }
             default: System.out.println(actionEvent.getActionCommand());
         }
     }
@@ -292,7 +311,7 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
     private boolean isDateFormatValid(){
         String date = dateField.getText();
         if (date.isBlank()) return false;
-        boolean b = true;
+        boolean b;
         if (date.length() == 10) {
             String day = date.substring(0, 2);
             String month = date.substring(3, 5);
@@ -315,5 +334,10 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
         dateField.setText("");
         customerNameField.setText("");
         lines.setModel(createTableModel());
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent listSelectionEvent) {
+        selectedItem  = lines.getSelectedRow();
     }
 }

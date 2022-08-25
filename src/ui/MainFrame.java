@@ -78,6 +78,7 @@ public class MainFrame extends JFrame implements ActionsListener {
 
     @Override
     public void deleteInvoice(int position) {
+        System.out.println(position);
         if (position != -1 && invoiceHeaders.size() > 0 && invoiceHeaders.size() > position){
             InvoiceHeader deletedInvoice  = invoiceHeaders.remove(position);
             if (deletedInvoice.getInvoiceNumber() == showInvoiceView.getInvoiceNumber()){
@@ -99,6 +100,7 @@ public class MainFrame extends JFrame implements ActionsListener {
     @Override
     public void hideShowingInvoice() {
         showInvoiceView.hideLayout();
+        invoicesTable.clearSelection();
     }
 
     @Override

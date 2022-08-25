@@ -10,4 +10,5 @@ public class ActionCommands {
     public final static String CREATE = "create";
     public final static String HIDE = "hide invoice";
     public final static String EDIT = "edit invoice";
+    public final static String DELETE_ITEM = "delete item";
 }
