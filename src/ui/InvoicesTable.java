@@ -101,7 +101,7 @@ public class InvoicesTable extends JPanel implements ListSelectionListener, Acti
     @Override
     public void valueChanged(ListSelectionEvent listSelectionEvent) {
         selectedRow = table.getSelectedRow();
-        System.out.println(selectedRow);
+        listener.showInvoice(selectedRow);
     }
 
     public ArrayList<InvoiceHeader> getInvoices() {

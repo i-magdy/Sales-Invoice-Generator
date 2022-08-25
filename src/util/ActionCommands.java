@@ -8,4 +8,6 @@ public class ActionCommands {
     public final static String CANCEL = "cancel";
     public final static String DELETE = "delete";
     public final static String CREATE = "create";
+    public final static String HIDE = "hide invoice";
+    public final static String EDIT = "edit invoice";
 }

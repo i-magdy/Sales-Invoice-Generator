@@ -5,17 +5,15 @@ import models.InvoiceHeader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
-public class MainFrame extends JFrame implements ActionListener,ActionsListener {
+public class MainFrame extends JFrame implements ActionsListener {
 
 
     private ArrayList<InvoiceHeader> invoiceHeaders = new ArrayList<>();
     private InvoicesTable invoicesTable;
     private CreateInvoiceFrame createInvoiceFrame;
+    private ShowInvoiceView showInvoiceView;
     public MainFrame(){
         super("Sales Invoice Generator");
         setSize(1024,560);
@@ -24,24 +22,30 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
         setJMenuBar(menuBar.create());
         invoicesTable = new InvoicesTable(this);
         createInvoiceFrame = new CreateInvoiceFrame(this);
+        showInvoiceView = new ShowInvoiceView(this);
         add(invoicesTable);
-        add(createInvoiceFrame);
+        add(showInvoiceView);
+        showInvoiceView.hideLayout();
         createInvoiceFrame.hideLayout();
         invoicesTable.setInvoices(invoiceHeaders);
-        menuLoadAction();
+        invoiceHeaders = FileOperations.readFile();
+        invoicesTable.setInvoices(invoiceHeaders);
     }
 
-
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-
-
-
-    }
 
     @Override
     public void createInvoiceAction(InvoiceHeader invoiceHeader) {
-        invoiceHeaders.add(invoiceHeader);
+        boolean isFound = false;
+        for (int i =0; i < invoiceHeaders.size();i++){
+            if (invoiceHeader.getInvoiceNumber() ==  invoiceHeaders.get(i).getInvoiceNumber()){
+                isFound = true;
+                invoiceHeaders.set(i,invoiceHeader);
+                break;
+            }
+        }
+        if (!isFound) {
+            invoiceHeaders.add(invoiceHeader);
+        }
         invoicesTable.setInvoices(invoiceHeaders);
     }
 
@@ -52,7 +56,7 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
 
     @Override
     public void menuLoadAction() {
-        invoiceHeaders = FileOperations.readFile();
+        invoiceHeaders = FileOperations.readFile(this);
         invoicesTable.setInvoices(invoiceHeaders);
     }
 
@@ -63,15 +67,47 @@ public class MainFrame extends JFrame implements ActionListener,ActionsListener 
 
     @Override
     public void createNewInvoice() {
-        createInvoiceFrame.showLayout();
-        createInvoiceFrame.setInvoiceNumber(invoiceHeaders.isEmpty() ? 1 : invoiceHeaders.get(invoiceHeaders.size()-1).getInvoiceNumber() + 1);
+        if (!createInvoiceFrame.isVisible()) {
+            remove(showInvoiceView);
+            showInvoiceView.hideLayout();
+            add(createInvoiceFrame);
+            createInvoiceFrame.showLayout();
+            createInvoiceFrame.setInvoiceNumber(invoiceHeaders.isEmpty() ? 1 : invoiceHeaders.get(invoiceHeaders.size() - 1).getInvoiceNumber() + 1);
+        }
     }
 
     @Override
     public void deleteInvoice(int position) {
         if (position != -1 && invoiceHeaders.size() > 0 && invoiceHeaders.size() > position){
-            invoiceHeaders.remove(position);
+            InvoiceHeader deletedInvoice  = invoiceHeaders.remove(position);
+            if (deletedInvoice.getInvoiceNumber() == showInvoiceView.getInvoiceNumber()){
+                showInvoiceView.hideLayout();
+            }
             invoicesTable.setInvoices(invoiceHeaders);
+        }
+    }
+
+    @Override
+    public void editInvoice(InvoiceHeader invoiceHeader) {
+        remove(showInvoiceView);
+        showInvoiceView.hideLayout();
+        add(createInvoiceFrame);
+        createInvoiceFrame.showLayout();
+        createInvoiceFrame.updateInvoiceUi(invoiceHeader);
+    }
+
+    @Override
+    public void hideShowingInvoice() {
+        showInvoiceView.hideLayout();
+    }
+
+    @Override
+    public void showInvoice(int position) {
+        if (position != -1 && invoiceHeaders.size() > 0 && invoiceHeaders.size() > position && !createInvoiceFrame.isVisible()){
+            remove(createInvoiceFrame);
+            remove(showInvoiceView);
+            add(showInvoiceView);
+            showInvoiceView.showInvoice(invoiceHeaders.get(position));
         }
     }
 

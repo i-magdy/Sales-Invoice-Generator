@@ -26,7 +26,6 @@ public class FileOperations {
             return "*.csv";
         }
     };
-    @Deprecated(since = "Load files from Directory FileChooser")
     public static ArrayList<InvoiceHeader> readFile(Component component){
         ArrayList<InvoiceHeader> headersList = new ArrayList<>();
         JFileChooser invoiceHeaderChooser = new JFileChooser();
@@ -163,7 +162,6 @@ public class FileOperations {
         }
 
     }
-
     public static ArrayList<InvoiceHeader> readFile(){
         ArrayList<InvoiceHeader> headersList = new ArrayList<>();
         FileReader headersFile = null;

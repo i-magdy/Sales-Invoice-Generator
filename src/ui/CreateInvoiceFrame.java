@@ -217,6 +217,14 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
         };
     }
 
+    public void updateInvoiceUi(InvoiceHeader ih){
+        this.invoiceHeader = ih;
+        this.invoiceLines = invoiceHeader.getInvoiceLines();
+        dateField.setText(invoiceHeader.getDate());
+        customerNameField.setText(invoiceHeader.getCustomerName());
+        invoiceNumberLabel.setText(String.valueOf(invoiceHeader.getInvoiceNumber()));
+        lines.setModel(createTableModel());
+    }
     public void showLayout(){
         invoiceHeader = new InvoiceHeader();
         setVisible(true);
@@ -257,7 +265,7 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener {
                     listener.createInvoiceAction(invoiceHeader);
                     hideLayout();
                 }else {
-                    JOptionPane.showMessageDialog(this,"Check Your Data Input,Something went wrong","Wrong",JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(this,"Check Your Data Input,Something went wrong","Error",JOptionPane.ERROR_MESSAGE);
                 }
                 break;
             }
