@@ -10,6 +10,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +91,7 @@ public class InvoicesTable extends JPanel implements ListSelectionListener, Acti
 
             @Override
             public void addTableModelListener(TableModelListener tableModelListener) {
-
+                System.out.println("Click");
             }
 
             @Override
@@ -102,6 +104,7 @@ public class InvoicesTable extends JPanel implements ListSelectionListener, Acti
     public void valueChanged(ListSelectionEvent listSelectionEvent) {
         selectedRow = table.getSelectedRow();
         listener.showInvoice(selectedRow);
+        table.clearSelection();
     }
 
     public ArrayList<InvoiceHeader> getInvoices() {
