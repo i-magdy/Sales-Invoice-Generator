@@ -79,7 +79,7 @@ public class MainFrame extends JFrame implements ActionsListener {
     @Override
     public void deleteInvoice(int position) {
         System.out.println(position);
-        if (position != -1 && invoiceHeaders.size() > 0 && invoiceHeaders.size() > position){
+        if (position != -1 && invoiceHeaders.size() > 0 && invoiceHeaders.size() > position && !createInvoiceFrame.isVisible()){
             InvoiceHeader deletedInvoice  = invoiceHeaders.remove(position);
             if (deletedInvoice.getInvoiceNumber() == showInvoiceView.getInvoiceNumber()){
                 showInvoiceView.hideLayout();
