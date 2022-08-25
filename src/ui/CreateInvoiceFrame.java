@@ -56,7 +56,7 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener, ListSe
         deleteItemButton.setActionCommand(ActionCommands.DELETE_ITEM);
         saveButton.addActionListener(this);
         cancelButton.addActionListener(this);
-        deleteItemButton.addActionListener(this)
+        deleteItemButton.addActionListener(this);
         JPanel panel = new JPanel();
         panel.add(saveButton);
         panel.add(deleteItemButton);
