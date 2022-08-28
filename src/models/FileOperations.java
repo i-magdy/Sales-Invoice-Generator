@@ -3,7 +3,6 @@ package models;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.StringTokenizer;
 public class FileOperations {
 
 
-    @Deprecated
     private static final FileFilter filter = new FileFilter() {
         @Override
         public boolean accept(File file) {
@@ -26,6 +24,7 @@ public class FileOperations {
             return "*.csv";
         }
     };
+
     public static ArrayList<InvoiceHeader> readFile(Component component){
         ArrayList<InvoiceHeader> headersList = new ArrayList<>();
         JFileChooser invoiceHeaderChooser = new JFileChooser();
@@ -106,7 +105,6 @@ public class FileOperations {
         return headersList;
     }
 
-    @Deprecated(since = "Saving files in directory FileChooser")
     public void writFile(ArrayList<InvoiceHeader> invoiceHeaders,Component component){
         JFileChooser chooser =  new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -162,6 +160,7 @@ public class FileOperations {
         }
 
     }
+
     public static ArrayList<InvoiceHeader> readFile(){
         ArrayList<InvoiceHeader> headersList = new ArrayList<>();
         FileReader headersFile = null;
