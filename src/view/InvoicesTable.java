@@ -1,4 +1,4 @@
-package ui;
+package view;
 
 import models.InvoiceHeader;
 import util.ActionCommands;
@@ -25,7 +25,7 @@ public class InvoicesTable extends JPanel implements ListSelectionListener, Acti
         this.listener = listener;
         col.add("NO.");
         col.add("Customer");
-        col.add("Count");
+        col.add("Date");
         col.add("Total");
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         table = new JTable(createTableModel());
@@ -78,7 +78,7 @@ public class InvoicesTable extends JPanel implements ListSelectionListener, Acti
                     case 0: return String.valueOf(invoices.get(i).getInvoiceNumber());
                     case 1: return invoices.get(i).getCustomerName();
                     case 3: return String.valueOf(invoices.get(i).getTotal());
-                    case 2: return String.valueOf(invoices.get(i).getInvoiceLines().size());
+                    case 2: return String.valueOf(invoices.get(i).getDate());
                     default: return "";
                 }
             }

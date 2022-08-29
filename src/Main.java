@@ -1,8 +1,12 @@
-import ui.MainFrame;
+import controller.InvoicesController;
+import models.FileOperations;
+import view.MainFrame;
 
 public class Main {
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
-        frame.setVisible(true);
+        InvoicesController controller = new InvoicesController(frame);
+        controller.setInvoiceHeaders(FileOperations.readFile());
+        controller.updateView();
     }
 }

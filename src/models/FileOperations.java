@@ -5,12 +5,9 @@ import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class FileOperations {
-
-
     private static final FileFilter filter = new FileFilter() {
         @Override
         public boolean accept(File file) {
@@ -105,7 +102,7 @@ public class FileOperations {
         return headersList;
     }
 
-    public void writFile(ArrayList<InvoiceHeader> invoiceHeaders,Component component){
+    public static void writFile(ArrayList<InvoiceHeader> invoiceHeaders,Component component){
         JFileChooser chooser =  new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogTitle("Choose Folder to save");
