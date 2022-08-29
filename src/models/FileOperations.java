@@ -37,14 +37,14 @@ public class FileOperations {
         if (resultHeaders == JFileChooser.APPROVE_OPTION){
             String headersPath = invoiceHeaderChooser.getSelectedFile().getPath();
             if (!headersPath.endsWith(".csv")){
-                JOptionPane.showMessageDialog(component,"Wrong InvoiceHeader.csv File!","Load InvoiceHeader",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(component,"Wrong InvoiceHeader.csv File!","Load InvoiceHeader",JOptionPane.ERROR_MESSAGE);
                 return new ArrayList<>();
             }
             int resultLines = invoiceLinesChooser.showOpenDialog(component);
             if (resultLines == JFileChooser.APPROVE_OPTION) {
                 String linesPath = invoiceLinesChooser.getSelectedFile().getPath();
                 if (!linesPath.endsWith(".csv")){
-                    JOptionPane.showMessageDialog(component,"Wrong InvoiceLine.csv File!","Load InvoiceLine",JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(component,"Wrong InvoiceLine.csv File!","Load InvoiceLine",JOptionPane.ERROR_MESSAGE);
                     return new ArrayList<>();
                 }
                 FileReader headersFile = null;
@@ -134,10 +134,10 @@ public class FileOperations {
                     linesWriter.append("\n");
                     for (InvoiceHeader header : invoiceHeaders){
                         String num = String.valueOf(header.getInvoiceNumber());
-                        headersWriter.append(String.join(",",List.of(num,header.getDate(),header.getCustomerName())));
+                        headersWriter.append(String.join(",",num,header.getDate(),header.getCustomerName()));
                         headersWriter.append("\n");
                         for (InvoiceLine line: header.getInvoiceLines()){
-                            linesWriter.append(String.join(",",List.of(num,line.getItemName(),String.valueOf(line.getItemPrice()),String.valueOf(line.getCount()))));
+                            linesWriter.append(String.join(",",num,line.getItemName(),String.valueOf(line.getItemPrice()),String.valueOf(line.getCount())));
                             linesWriter.append("\n");
                         }
                     }
@@ -244,10 +244,10 @@ public class FileOperations {
             linesWriter.append("\n");
             for (InvoiceHeader header : invoiceHeaders){
                 String num = String.valueOf(header.getInvoiceNumber());
-                headersWriter.append(String.join(",",List.of(num,header.getDate(),header.getCustomerName())));
+                headersWriter.append(String.join(",",num,header.getDate(),header.getCustomerName()));
                 headersWriter.append("\n");
                 for (InvoiceLine line: header.getInvoiceLines()){
-                    linesWriter.append(String.join(",",List.of(num,line.getItemName(),String.valueOf(line.getItemPrice()),String.valueOf(line.getCount()))));
+                    linesWriter.append(String.join(",",num,line.getItemName(),String.valueOf(line.getItemPrice()),String.valueOf(line.getCount())));
                     linesWriter.append("\n");
                 }
             }

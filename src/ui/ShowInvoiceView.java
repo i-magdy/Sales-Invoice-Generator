@@ -1,7 +1,6 @@
 package ui;
 
 import models.InvoiceHeader;
-import models.InvoiceLine;
 import util.ActionCommands;
 
 import javax.swing.*;
