@@ -1,6 +1,6 @@
 package view;
 
-import models.InvoiceHeader;
+import model.InvoiceHeader;
 import util.ActionCommands;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package models;
+package model;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -130,11 +130,10 @@ public class FileOperations {
                     linesWriter.append("Count");
                     linesWriter.append("\n");
                     for (InvoiceHeader header : invoiceHeaders){
-                        String num = String.valueOf(header.getInvoiceNumber());
-                        headersWriter.append(String.join(",",num,header.getDate(),header.getCustomerName()));
+                        headersWriter.append(String.join(",",String.valueOf(header.getInvoiceNumber()),header.getDate(),header.getCustomerName()));
                         headersWriter.append("\n");
                         for (InvoiceLine line: header.getInvoiceLines()){
-                            linesWriter.append(String.join(",",num,line.getItemName(),String.valueOf(line.getItemPrice()),String.valueOf(line.getCount())));
+                            linesWriter.append(String.join(",",String.valueOf(line.getInvoiceNumber()),line.getItemName(),String.valueOf(line.getItemPrice()),String.valueOf(line.getCount())));
                             linesWriter.append("\n");
                         }
                     }

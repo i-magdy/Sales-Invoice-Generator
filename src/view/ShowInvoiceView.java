@@ -1,6 +1,6 @@
 package view;
 
-import models.InvoiceHeader;
+import model.InvoiceHeader;
 import util.ActionCommands;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ public class ShowInvoiceView extends JPanel implements ActionListener {
 
 
     private InvoiceHeader invoiceHeader;
-    private ActionsListener listener;
+    private final ActionsListener listener;
     private JLabel customerNameField;
     private JLabel dateField;
     private JLabel totalLabel;
@@ -131,7 +131,7 @@ public class ShowInvoiceView extends JPanel implements ActionListener {
             @Override
             public Object getValueAt(int row, int col) {
                 switch (col){
-                    case 0: return row+1;
+                    case 0: return invoiceHeader.getInvoiceLines().get(row).getInvoiceNumber();
                     case 1: return invoiceHeader.getInvoiceLines().get(row).getItemName();
                     case 2: return invoiceHeader.getInvoiceLines().get(row).getItemPrice();
                     case 3: return invoiceHeader.getInvoiceLines().get(row).getCount();

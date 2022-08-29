@@ -1,6 +1,6 @@
 package view;
 
-import models.InvoiceHeader;
+import model.InvoiceHeader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ public class MainFrame extends JFrame  {
     private InvoicesTable invoicesTable;
     private CreateInvoiceFrame createInvoiceFrame;
     private ShowInvoiceView invoiceView;
-    private ActionsListener listener;
+
     public MainFrame(){
         super("Sales Invoice Generator");
         setSize(1024,560);
@@ -23,7 +23,6 @@ public class MainFrame extends JFrame  {
         invoicesTable.setInvoices(invoiceHeaders);
     }
     public void setActionsListener(ActionsListener listener){
-        this.listener =  listener;
         MainMenuBar menuBar = new MainMenuBar(listener);
         setJMenuBar(menuBar.create());
         invoicesTable = new InvoicesTable(listener);

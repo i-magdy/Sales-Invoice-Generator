@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 public class MainMenuBar  implements ActionListener {
 
 
-    private JMenu mFileMenu;
-    private ActionsListener listener;
+    private final JMenu mFileMenu;
+    private final ActionsListener listener;
 
     public MainMenuBar(ActionsListener listener){
         this.listener = listener;

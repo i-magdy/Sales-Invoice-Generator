@@ -1,6 +1,6 @@
 package view;
 
-import models.InvoiceHeader;
+import model.InvoiceHeader;
 
 public interface ActionsListener {
     void createInvoiceAction(InvoiceHeader invoiceHeader);

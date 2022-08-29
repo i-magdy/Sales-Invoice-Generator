@@ -1,7 +1,7 @@
 package controller;
 
-import models.FileOperations;
-import models.InvoiceHeader;
+import model.FileOperations;
+import model.InvoiceHeader;
 import view.ActionsListener;
 import view.MainFrame;
 

@@ -1,7 +1,7 @@
 package view;
 
-import models.InvoiceHeader;
-import models.InvoiceLine;
+import model.InvoiceHeader;
+import model.InvoiceLine;
 import util.ActionCommands;
 
 import javax.swing.*;
@@ -144,7 +144,7 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener, ListSe
             public Object getValueAt(int row, int col) {
                 totalLabel.setText(totalPrice());
                 switch (col){
-                   case 0: return invoiceLines.size() > 0 ? row+ 1 : "";
+                   case 0: return invoiceLines.size() > row ? invoiceLines.get(row).getInvoiceNumber() : "";
                    case 1: return invoiceLines.size() > row ? invoiceLines.get(row).getItemName() : "";
                    case 2: return invoiceLines.size() > row ? invoiceLines.get(row).getItemPrice() : 0.0;
                    case 3: return invoiceLines.size() > row ? invoiceLines.get(row).getCount() : 0;
@@ -180,6 +180,7 @@ public class CreateInvoiceFrame extends JPanel implements ActionListener, ListSe
                     }
                     if (!line.getItemName().isBlank()) {
                         line.setItemTotal(line.getItemPrice() * line.getCount());
+                        line.setInvoiceNumber(invoiceHeader.getInvoiceNumber());
                         invoiceLines.add(line);
                     }
                 }else {

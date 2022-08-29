@@ -1,5 +1,5 @@
 import controller.InvoicesController;
-import models.FileOperations;
+import model.FileOperations;
 import view.MainFrame;
 
 public class Main {
